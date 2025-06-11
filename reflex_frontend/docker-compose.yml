@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.reflex
+    ports:
+      - "3000:3000"
+    environment:
+      - REFLEX_ENV=prod
+      - API_URL=http://backend:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - scada-network
+
+  backend:
+    image: your-backend-image:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_URL=postgresql://scada_user:yourpassword@db:5432/scada_db
+    depends_on:
+      - db
+    networks:
+      - scada-network
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=scada_user
+      - POSTGRES_PASSWORD=yourpassword
+      - POSTGRES_DB=scada_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - scada-network
+
+networks:
+  scada-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

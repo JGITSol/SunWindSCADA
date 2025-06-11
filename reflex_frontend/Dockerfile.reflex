@@ -1,0 +1,33 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    unzip \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js for Reflex frontend
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
+COPY . .
+
+# Set environment variables for connecting to Django backend
+ENV REFLEX_API_URL=http://django:8000/api
+ENV REFLEX_DB_URL=postgresql://scada_user:scada_password@db:5432/scada_db
+ENV REFLEX_ENV=production
+
+# Expose the Reflex port
+EXPOSE 3000
+
+# Start the Reflex application with proper host binding
+CMD ["python", "-m", "reflex", "run", "--backend-host", "0.0.0.0", "--frontend-port", "3000", "--backend-port", "8000", "--app", "reflex_frontend.app"]

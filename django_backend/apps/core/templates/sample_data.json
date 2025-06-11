@@ -1,0 +1,211 @@
+{
+  "turbines": [
+    {
+      "name": "Vestas V90-3.0",
+      "hub_height": 105.0,
+      "rotor_diameter": 90.0,
+      "nominal_power": 3000000.0,
+      "status": "operational",
+      "latitude": 52.2297,
+      "longitude": 21.0122
+    },
+    {
+      "name": "Enercon E-101",
+      "hub_height": 135.0,
+      "rotor_diameter": 101.0,
+      "nominal_power": 3050000.0,
+      "status": "operational",
+      "latitude": 52.2298,
+      "longitude": 21.0124
+    },
+    {
+      "name": "Siemens SWT-3.6-120",
+      "hub_height": 90.0,
+      "rotor_diameter": 120.0,
+      "nominal_power": 3600000.0,
+      "status": "maintenance",
+      "latitude": 52.2299,
+      "longitude": 21.0126
+    },
+    {
+      "name": "GE 3.2-130",
+      "hub_height": 110.0,
+      "rotor_diameter": 130.0,
+      "nominal_power": 3200000.0,
+      "status": "operational",
+      "latitude": 52.2300,
+      "longitude": 21.0128
+    },
+    {
+      "name": "Nordex N149/4.0-4.5",
+      "hub_height": 105.0,
+      "rotor_diameter": 149.0,
+      "nominal_power": 4500000.0,
+      "status": "operational",
+      "latitude": 52.2301,
+      "longitude": 21.0130
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Normal Operation",
+      "description": "Normal wind farm operation with typical wind conditions (5-10 m/s)",
+      "scenario_type": "normal_operation",
+      "active": true,
+      "parameters": {
+        "base_wind_speed": 7.5,
+        "wind_variability": 1.5,
+        "temperature": 15.0
+      }
+    },
+    {
+      "name": "Grid Fault - Severe Voltage Dip",
+      "description": "Simulation of a severe grid fault with voltage dip to 40% for 200ms",
+      "scenario_type": "grid_fault",
+      "active": false,
+      "parameters": {
+        "voltage": 0.4,
+        "duration": 0.2,
+        "fault_type": "symmetrical"
+      }
+    },
+    {
+      "name": "Grid Fault - Moderate Voltage Dip",
+      "description": "Simulation of a moderate grid fault with voltage dip to 70% for 500ms",
+      "scenario_type": "grid_fault",
+      "active": false,
+      "parameters": {
+        "voltage": 0.7,
+        "duration": 0.5,
+        "fault_type": "asymmetrical"
+      }
+    },
+    {
+      "name": "Turbine #3 Failure",
+      "description": "Simulation of a mechanical failure in turbine #3 (gearbox issue)",
+      "scenario_type": "turbine_failure",
+      "active": false,
+      "parameters": {
+        "turbine_id": 3,
+        "failure_type": "gearbox",
+        "failure_time": 1800
+      }
+    },
+    {
+      "name": "Storm Conditions",
+      "description": "Simulation of storm conditions with high wind speeds (15-25 m/s)",
+      "scenario_type": "storm",
+      "active": false,
+      "parameters": {
+        "wind_speed": 20.0,
+        "wind_variability": 3.0,
+        "temperature": 12.0,
+        "pressure": 990.0
+      }
+    },
+    {
+      "name": "Low Wind Conditions",
+      "description": "Simulation of low wind conditions (2-4 m/s) near cut-in speed",
+      "scenario_type": "custom",
+      "active": false,
+      "parameters": {
+        "wind_speed": 3.0,
+        "wind_variability": 0.8,
+        "temperature": 18.0
+      }
+    }
+  ],
+  "weather_patterns": [
+    {
+      "name": "Summer Day",
+      "base_wind_speed": 6.0,
+      "wind_pattern": "diurnal",
+      "temperature_range": [15.0, 25.0],
+      "pressure": 1013.0,
+      "humidity_range": [60.0, 75.0]
+    },
+    {
+      "name": "Winter Day",
+      "base_wind_speed": 9.0,
+      "wind_pattern": "steady",
+      "temperature_range": [-5.0, 5.0],
+      "pressure": 1020.0,
+      "humidity_range": [70.0, 85.0]
+    },
+    {
+      "name": "Spring Front Passage",
+      "base_wind_speed": 8.0,
+      "wind_pattern": "increasing",
+      "temperature_range": [10.0, 18.0],
+      "pressure": 1005.0,
+      "humidity_range": [65.0, 90.0]
+    },
+    {
+      "name": "Autumn Storm",
+      "base_wind_speed": 15.0,
+      "wind_pattern": "gusty",
+      "temperature_range": [8.0, 14.0],
+      "pressure": 995.0,
+      "humidity_range": [80.0, 95.0]
+    }
+  ],
+  "power_curves": {
+    "Vestas V90-3.0": {
+      "wind_speeds": [0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 25],
+      "power_values": [0, 0, 75000, 200000, 350000, 600000, 900000, 1250000, 1650000, 2050000, 2400000, 2700000, 2850000, 2950000, 3000000, 3000000, 3000000]
+    },
+    "Enercon E-101": {
+      "wind_speeds": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 25],
+      "power_values": [0, 0, 50000, 175000, 375000, 650000, 1000000, 1400000, 1850000, 2300000, 2650000, 2900000, 3000000, 3050000, 3050000, 3050000, 3050000]
+    },
+    "Siemens SWT-3.6-120": {
+      "wind_speeds": [0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 25],
+      "power_values": [0, 0, 120000, 300000, 550000, 900000, 1300000, 1800000, 2350000, 2900000, 3300000, 3500000, 3600000, 3600000, 3600000, 3600000]
+    },
+    "GE 3.2-130": {
+      "wind_speeds": [0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 25],
+      "power_values": [0, 0, 100000, 250000, 500000, 800000, 1200000, 1650000, 2100000, 2550000, 2900000, 3100000, 3200000, 3200000, 3200000]
+    },
+    "Nordex N149/4.0-4.5": {
+      "wind_speeds": [0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 25],
+      "power_values": [0, 0, 150000, 350000, 650000, 1050000, 1550000, 2100000, 2700000, 3300000, 3800000, 4200000, 4400000, 4500000, 4500000, 4500000]
+    }
+  },
+  "grid_compliance": {
+    "lvrt_curve": {
+      "voltage_pu": [0.0, 0.3, 0.7, 0.85, 0.9],
+      "duration_seconds": [0.15, 0.15, 0.7, 1.5, 3.0]
+    },
+    "hvrt_curve": {
+      "voltage_pu": [1.1, 1.15, 1.2],
+      "duration_seconds": [60.0, 1.0, 0.1]
+    },
+    "frequency_limits": {
+      "min_continuous": 49.0,
+      "max_continuous": 51.0,
+      "min_temporary": 47.5,
+      "max_temporary": 51.5,
+      "temporary_duration": 60.0
+    }
+  },
+  "communication_settings": {
+    "modbus": {
+      "host": "192.168.1.100",
+      "port": 502,
+      "unit_id": 1,
+      "timeout": 1.0
+    },
+    "opcua": {
+      "endpoint": "opc.tcp://localhost:4840",
+      "namespace": "http://sunwindscada.org",
+      "security_mode": "SignAndEncrypt"
+    },
+    "mqtt": {
+      "broker": "grid-operator.pl",
+      "port": 8883,
+      "use_tls": true,
+      "client_id": "wind_scada_client",
+      "topic_prefix": "wind/farm1/"
+    }
+  }
+}

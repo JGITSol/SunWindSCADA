@@ -1,0 +1,69 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: db-1
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: scada_db
+      POSTGRES_USER: scada_user
+      POSTGRES_PASSWORD: scada_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sunwindscada-network
+
+  django:
+    container_name: django-1
+    build:
+      context: .
+      dockerfile: Dockerfile.django
+    command: bash -c "python django_backend/manage.py migrate && python django_backend/manage.py runserver 0.0.0.0:8000"
+    environment:
+      DJANGO_SECRET_KEY: django-insecure-0a9s8d7f6a5sd4f3asd21fasdf4a5s6df4
+      DEBUG: 'True'
+      DB_NAME: scada_db
+      DB_USER: scada_user
+      DB_PASSWORD: scada_password
+      DB_HOST: db
+      DB_PORT: 5432
+      PYTHONPATH: /app
+      ALLOWED_HOSTS: "localhost,127.0.0.1,django,django-1"
+      CORS_ALLOWED_ORIGINS: "http://localhost:3000,http://reflex:3000,http://reflex-1:3000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    networks:
+      - sunwindscada-network
+
+  reflex:
+    container_name: reflex-1
+    build:
+      context: ./reflex_frontend
+      dockerfile: Dockerfile.reflex
+    # Command is specified in the Dockerfile.reflex
+    environment:
+      REFLEX_API_URL: "http://django:8000/api"
+      REFLEX_DB_URL: "postgresql://scada_user:scada_password@db:5432/scada_db"
+      REFLEX_ENV: "production"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - django
+    volumes:
+      - ./reflex_frontend:/app
+    networks:
+      - sunwindscada-network
+
+networks:
+  sunwindscada-network:
+    name: sunwindscada
+
+volumes:
+  postgres_data:
