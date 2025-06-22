@@ -1,0 +1,22 @@
+# Development requirements for SunWindSCADA
+black
+isort
+flake8
+mypy
+bandit
+safety
+pytest
+Django==5.0.14  # Pin to secure version
+# psutil conflict: reflex needs psutil>=7.0.0,<8.0, safety needs ~=6.1.0. If you need to run safety, consider a separate environment.
+python-dotenv
+pandas
+plotly
+httpx
+playwright
+celery
+redis
+windpowerlib
+django-stubs
+mypy-extensions
+types-requests
+types-python-dateutil

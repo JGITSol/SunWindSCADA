@@ -1,0 +1,30 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+.dockerignore
+docker-compose.yml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+venv/
+*.egg-info
+.pytest_cache
+.mypy_cache
+
+# IDEs and editors
+.idea/
+.vscode/
+
+# Frontend
+dash_frontend/
+
+# Documentation
+*.md
